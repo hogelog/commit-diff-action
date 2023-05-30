@@ -20,9 +20,7 @@ async function run() {
     base,
     head,
   });
-  const diffs = comparison.files
-    .filter(file => file.patch)
-    .map(file => (file.filename));
+  const diffs = comparison.files.map(file => (file.filename));
 
   const diffsString = diffs.join('\n');
   const diffsJSON = JSON.stringify(diffs, null, 0);
