@@ -2,8 +2,9 @@ name: 'Commit Diff'
 description: 'Fetch Commit Diff'
 inputs:
   github-token:
-    description: 'Passing GITHUB_TOKEN'
-    required: true
+    description: Passing GitHub API token
+    default: ${{ github.token }}
+    required: false
 outputs:
   diffs:
     description: 'Commit diff string'
