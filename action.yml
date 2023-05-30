@@ -1,30 +1,14 @@
 name: 'Commit Diff'
 description: 'Fetch Commit Diff'
+inputs:
+  github-token:
+    description: 'Passing GITHUB_TOKEN'
+    required: true
 outputs:
   diffs:
-    description: "Commit diff string"
-    value: ${{ steps.compare.outputs.diff }}
+    description: 'Commit diff string'
   diffsJSON:
-    description: "Commit diff in JSON format"
-    value: ${{ steps.compare.outputs.diffJSON }}
+    description: 'Commit diff in JSON format'
 runs:
-  using: "composite"
-  steps:
-    - id: compare
-      uses: actions/github-script@v6.4.1
-      with:
-        script: |
-          const { data: comparison } = await github.rest.repos.compareCommits({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            base: context.payload.before,
-            head: context.payload.after,
-          });
-          const diffs = comparison.files
-            .filter(file => file.patch)
-            .map(file => (file.filename));
-          const diffsString = diffs.join('\n');
-          const diffsJSON = JSON.stringify(diffs, null, 0);
-          console.log(diffsString);
-          core.setOutput('diffs', diffs);
-          core.setOutput('diffsJSON', diffsJSON);
+  using: 'node16'
+  main: 'index.js'
