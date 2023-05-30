@@ -17,9 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: compare
-        uses: hogelog/commit-diff-action@0.1.0
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+        uses: hogelog/commit-diff-action@0.1.1
       - run: |
           echo '${{ steps.compare.outputs.diffsJSON }}'
           echo '${{ steps.compare.outputs.diffs }}'
