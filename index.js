@@ -5,11 +5,20 @@ async function run() {
   const githubToken = core.getInput('github-token');
   const octokit = github.getOctokit(githubToken)
 
+  var base, head;
+  if (github.context.payload.pull_request) {
+    base = github.context.payload.pull_request.base.sha;
+    head = github.context.payload.pull_request.head.sha;
+  } else {
+    base = github.context.payload.before;
+    head = github.context.payload.after;
+  }
+
   const { data: comparison } = await octokit.rest.repos.compareCommits({
     owner: github.context.repo.owner,
     repo: github.context.repo.repo,
-    base: github.context.payload.before,
-    head: github.context.payload.after,
+    base,
+    head,
   });
   const diffs = comparison.files
     .filter(file => file.patch)
