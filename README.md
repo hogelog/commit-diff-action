@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: compare
-        uses: hogelog/commit-diff-action@0.1.1
+        uses: hogelog/commit-diff-action@0.1.2
         with:
           include-pattern: ^src/.+
           exclude-pattern: ^src/tmp/.+
