@@ -18,6 +18,9 @@ jobs:
     steps:
       - id: compare
         uses: hogelog/commit-diff-action@0.1.1
+        with:
+          include-pattern: ^src/.+
+          exclude-pattern: ^src/tmp/.+
       - run: |
           echo '${{ steps.compare.outputs.diffsJSON }}'
           echo '${{ steps.compare.outputs.diffs }}'
@@ -25,11 +28,17 @@ jobs:
 
 ## Inputs
 
+### `include-patter`
+
+(Optional) Include path pattern regular expression.
+
+### `exclude-pattern`
+
+(Optional) Exclude path pattern regular expression.
+
 ### `github-token`
 
-**Required** GitHub token for API request.
-
-`{{ secrets.GITHUB_TOKEN }}` is recommended.
+(Optional) GitHub token for API request.
 
 ## Outputs
 

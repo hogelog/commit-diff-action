@@ -2,6 +2,8 @@ const core = require('@actions/core');
 const github = require('@actions/github');
 
 async function run() {
+  const includePattern = core.getInput('include-pattern');
+  const excludePattern = core.getInput('exclude-pattern');
   const githubToken = core.getInput('github-token');
   const octokit = github.getOctokit(githubToken)
 
@@ -20,7 +22,15 @@ async function run() {
     base,
     head,
   });
-  const diffs = comparison.files.map(file => (file.filename));
+  let diffs = comparison.files.map(file => (file.filename));
+  if (includePattern) {
+    const includeRe = new RegExp(includePattern);
+    diffs = diffs.filter(diff => includeRe.test(diff));
+  }
+  if (excludePattern) {
+    const excludesRe = new RegExp(excludePattern);
+    diffs = diffs.filter(diff => !excludesRe.test(diff));
+  }
 
   const diffsString = diffs.join('\n');
   const diffsJSON = JSON.stringify(diffs, null, 0);

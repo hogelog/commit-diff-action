@@ -5,6 +5,12 @@ inputs:
     description: Passing GitHub API token
     default: ${{ github.token }}
     required: false
+  include-pattern:
+    description: Include path pattern regexp
+    required: false
+  exclude-pattern:
+    description: Exclude path pattern regexp
+    required: false
 outputs:
   diffs:
     description: 'Commit diff string'
